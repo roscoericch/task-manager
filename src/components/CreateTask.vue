@@ -103,7 +103,7 @@ const handleSubmit = async () => {
           class="w-full"
         ></v-chip>
       </v-chip-group>
-      <v-row class="w-full mt-2">
+      <v-row class="w-full mx-auto mt-2">
         <label htmlFor="date">Due Date</label>
         <input
           class="w-full border border-b-slate-500"
