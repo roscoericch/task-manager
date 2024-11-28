@@ -2,6 +2,10 @@
 import { RouterLink, RouterView } from 'vue-router'
 import AddIcon from './components/icons/IconAdd.vue'
 import LogoIcon from '@/components/icons/IconLogo.vue'
+import CreateTask from './components/CreateTask.vue'
+import { ref } from 'vue'
+
+const dialog = ref(false)
 </script>
 
 <template>
@@ -11,12 +15,12 @@ import LogoIcon from '@/components/icons/IconLogo.vue'
       <h2 class="font-[800] text-[18px]">Task Mananger</h2>
     </RouterLink>
     <nav class="flex items-center gap-4">
-      <RouterLink class="hover:text-[#0c4fd4]" to="/create">
+      <button @click="(dialog = true)" class="hover:text-[#0c4fd4]">
         <span class="flex items-center gap-2">
           <p class="hidden md:inline">Create Task</p>
           <AddIcon class="border border-b-slate-400 shadow-sm rounded-[6px]" />
         </span>
-      </RouterLink>
+      </button>
       <v-avatar color="info">
         <v-img
           alt="Avatar"
@@ -27,4 +31,9 @@ import LogoIcon from '@/components/icons/IconLogo.vue'
   </header>
 
   <RouterView />
+  <v-dialog v-model="dialog" width="500">
+    <v-card class="p-[5%]" rounded="lg">
+      <CreateTask @close="(dialog = false)" />
+    </v-card>
+  </v-dialog>
 </template>

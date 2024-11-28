@@ -145,10 +145,12 @@ const handleSubmit = async () => {
           ></v-chip>
         </v-chip-group>
       </div>
-      <v-row justify="center" class="w-full">
+      <v-row class="w-full mt-2">
+        <label htmlFor="date">Due Date</label>
         <input
           class="w-full border border-b-slate-500"
           v-model="taskData.due_date"
+          id="date"
           type="date"
           :min="min"
           :rules="rules.due_date"

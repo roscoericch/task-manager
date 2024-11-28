@@ -12,7 +12,10 @@ import './index.css'
 const app = createApp(App)
 const vuetify = createVuetify({
   components,
-  directives
+  directives,
+  theme: {
+    defaultTheme: 'light',
+  },
 })
 
 app.use(createPinia())

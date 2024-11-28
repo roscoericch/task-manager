@@ -48,10 +48,13 @@ function handleDelete() {
         </h1>
       </span>
       <div class="flex items-center w-full justify-start md:justify-end gap-4">
-        <v-btn data-test="edit-btn" variant="outlined" color="primary" @click="handleEdit"
-          >Edit</v-btn
-        >
-        <v-btn data-test="delete-btn" variant="tonal" color="primary" @click="(dialog = true)"
+        <v-btn data-test="edit-btn" theme="primary" color="primary" @click="handleEdit">Edit</v-btn>
+        <v-btn
+          data-test="delete-btn"
+          color="primary"
+          style=""
+          theme="primary"
+          @click="(dialog = true)"
           >Delete</v-btn
         >
       </div>
@@ -95,10 +98,9 @@ function handleDelete() {
         </v-card-title>
         <v-card-text class="!px-[3%]"> are you sure you want to delete this task? </v-card-text>
         <template v-slot:actions>
-          <v-btn variant="outlined" color="primary" text="Cancel" @click="(dialog = false)"></v-btn>
+          <v-btn color="primary" text="Cancel" @click="(dialog = false)"></v-btn>
           <v-btn
             data-test="confirm-btn"
-            variant="outlined"
             color="primary"
             text="Delete"
             @click="handleDelete"

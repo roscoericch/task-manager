@@ -2,6 +2,9 @@
 import { type ITask, PriorityEnum } from '@/types/type'
 import { reactive, ref } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 const min = new Date().toISOString().split('T')[0]
 const form = ref<HTMLFormElement | null>(null)
 const rules = {
@@ -46,6 +49,7 @@ const handleSubmit = async () => {
     taskData.due_date = new Date().toISOString().split('T')[0]
 
     form.value?.reset()
+    emit('close')
   }
 }
 </script>
@@ -99,18 +103,12 @@ const handleSubmit = async () => {
           class="w-full"
         ></v-chip>
       </v-chip-group>
-      <v-row justify="center" class="w-full">
-        <!-- <v-date-picker
-          width="500"
-          v-model="taskData.due_date"
-          :min="min"
-          :rules="rules.due_date"
-          data-test="date-picker"
-          ref="date-picker"
-        ></v-date-picker> -->
+      <v-row class="w-full mt-2">
+        <label htmlFor="date">Due Date</label>
         <input
           class="w-full border border-b-slate-500"
           v-model="taskData.due_date"
+          id="date"
           type="date"
           :min="min"
           :rules="rules.due_date"

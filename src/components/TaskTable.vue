@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import SearchIcon from './icons/IconSearch.vue'
-import { computed, onMounted, defineProps, ref } from 'vue'
+import IconUp from './icons/IconUp.vue'
+import IconDown from './icons/IconDown.vue'
+import DotIcons from './icons/IconEllipsis.vue'
+import { computed, onMounted, ref } from 'vue'
 import { useFetch } from '@/stores/useQueryStore'
 import { useRouter } from 'vue-router'
-import { type IRequestQuery } from '@/types/type'
+import { OrderEnum, type IRequestQuery } from '@/types/type'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
 import { filterAndSortTasks } from '@/utility/utils'
 import { watch } from 'vue'
 const router = useRouter()
-const { tag } = defineProps<{ tag: string }>()
 const page = ref(1)
-const query = computed<IRequestQuery>(() => ({ page: page.value, tag }))
+const query = computed<IRequestQuery>(() => ({ page: page.value }))
 const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
 const { fetchData } = apiStore
 const store = useTaskStore()
@@ -51,6 +53,30 @@ onMounted(() => {
         <th class="text-left">Status</th>
         <th class="text-left">Priority</th>
         <th class="text-left">Due Date</th>
+        <th class="text-left flex flex-col justify-center items-center gap-1">
+          <v-btn
+            :disabled="filterQuery.order === OrderEnum.ascending"
+            @click="(filterQuery.order = OrderEnum.ascending)"
+            theme="primary"
+            color="primary"
+            class="w-[50%]"
+            size="15"
+            icon
+          >
+            <IconUp />
+          </v-btn>
+          <v-btn
+            :disabled="filterQuery.order === OrderEnum.descending"
+            @click="(filterQuery.order = OrderEnum.descending)"
+            theme="primary"
+            color="primary"
+            class="w-[50%]"
+            size="15"
+            icon
+          >
+            <IconDown />
+          </v-btn>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -69,6 +95,9 @@ onMounted(() => {
           <v-chip>{{ task.priority }}</v-chip>
         </td>
         <td>{{ task.due_date }}</td>
+        <td>
+          <DotIcons />
+        </td>
       </tr>
     </tbody>
     <SearchIcon

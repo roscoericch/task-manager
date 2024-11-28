@@ -12,7 +12,6 @@ export interface ITask {
 
 export interface IRequestQuery {
   page: number
-  tag: string
 }
 
 export interface IFilterQuery {
