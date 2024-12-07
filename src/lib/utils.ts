@@ -1,4 +1,11 @@
-import { type ITask, type IFilterQuery, OrderEnum } from '@/types/type'
+import { twMerge } from 'tailwind-merge'
+import { type ClassValue, clsx } from 'clsx'
+import { Order } from '@/constants'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
 export const filterAndSortTasks = (
   tasks: ITask[] | null,
   filterQuery: Partial<IFilterQuery> | null,
@@ -7,9 +14,9 @@ export const filterAndSortTasks = (
   return [
     ...tasks
       .sort((a, b) => {
-        if (filterQuery?.order === OrderEnum.ascending) {
+        if (filterQuery?.order === Order.ascending) {
           return new Date(a.due_date).getTime() - new Date(b.due_date).getTime()
-        } else if (filterQuery?.order === OrderEnum.descending) {
+        } else if (filterQuery?.order === Order.descending) {
           return new Date(b.due_date).getTime() - new Date(a.due_date).getTime()
         } else return 0
       })

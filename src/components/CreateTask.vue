@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type ITask, PriorityEnum } from '@/types/type'
 import { reactive, ref } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
+import { Priority } from '@/constants'
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
@@ -81,24 +81,24 @@ const handleSubmit = async () => {
       >
         <p>Priority</p>
         <v-chip
-          :key="PriorityEnum.High"
-          :text="PriorityEnum.High"
-          :value="PriorityEnum.High"
+          :key="Priority.High"
+          :text="Priority.High"
+          :value="Priority.High"
           variant="outlined"
           class="w-full"
           data-test="high-button"
         ></v-chip>
         <v-chip
-          :key="PriorityEnum.Medium"
-          :text="PriorityEnum.Medium"
-          :value="PriorityEnum.Medium"
+          :key="Priority.Medium"
+          :text="Priority.Medium"
+          :value="Priority.Medium"
           variant="outlined"
           class="w-full"
         ></v-chip>
         <v-chip
-          :key="PriorityEnum.Low"
-          :text="PriorityEnum.Low"
-          :value="PriorityEnum.Low"
+          :key="Priority.Low"
+          :text="Priority.Low"
+          :value="Priority.Low"
           variant="outlined"
           class="w-full"
         ></v-chip>

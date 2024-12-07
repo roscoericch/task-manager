@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type ITask, PriorityEnum, StatusEnum } from '@/types/type'
 import { computed, ref } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { Priority, Status } from '@/constants'
 const route = useRoute()
 const router = useRouter()
 const store = useTaskStore()
@@ -23,8 +23,8 @@ const taskData = computed((): ITask => {
       title: '',
       description: '',
       due_date: new Date().toISOString().split('T')[0],
-      priority: 'High',
-      status: 'Pending',
+      priority: Priority.High,
+      status: Status.Pending,
       id: 1,
     }
   }
@@ -90,24 +90,24 @@ const handleSubmit = async () => {
         >
           <p>Priority</p>
           <v-chip
-            :key="PriorityEnum.High"
-            :text="PriorityEnum.High"
-            :value="PriorityEnum.High"
+            :key="Priority.High"
+            :text="Priority.High"
+            :value="Priority.High"
             variant="outlined"
             class="w-full"
             data-test="high-button"
           ></v-chip>
           <v-chip
-            :key="PriorityEnum.Medium"
-            :text="PriorityEnum.Medium"
-            :value="PriorityEnum.Medium"
+            :key="Priority.Medium"
+            :text="Priority.Medium"
+            :value="Priority.Medium"
             variant="outlined"
             class="w-full"
           ></v-chip>
           <v-chip
-            :key="PriorityEnum.Low"
-            :text="PriorityEnum.Low"
-            :value="PriorityEnum.Low"
+            :key="Priority.Low"
+            :text="Priority.Low"
+            :value="Priority.Low"
             variant="outlined"
             class="w-full"
           ></v-chip>
@@ -122,24 +122,24 @@ const handleSubmit = async () => {
         >
           <p>Status</p>
           <v-chip
-            :key="StatusEnum.Pending"
-            :text="StatusEnum.Pending"
-            :value="StatusEnum.Pending"
+            :key="Status.Pending"
+            :text="Status.Pending"
+            :value="Status.Pending"
             variant="outlined"
             class="w-full"
             data-test="pendingstatus-button"
           ></v-chip>
           <v-chip
-            :key="StatusEnum.InProgress"
-            :text="StatusEnum.InProgress"
-            :value="StatusEnum.InProgress"
+            :key="Status.InProgress"
+            :text="Status.InProgress"
+            :value="Status.InProgress"
             variant="outlined"
             class="w-full"
           ></v-chip>
           <v-chip
-            :key="StatusEnum.Completed"
-            :text="StatusEnum.Completed"
-            :value="StatusEnum.Completed"
+            :key="Status.Completed"
+            :text="Status.Completed"
+            :value="Status.Completed"
             variant="outlined"
             class="w-full"
           ></v-chip>

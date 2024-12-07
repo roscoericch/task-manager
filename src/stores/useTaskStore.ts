@@ -1,6 +1,5 @@
 import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { IFilterQuery, ITask } from '@/types/type'
 
 export const useTaskStore = defineStore('task', () => {
   const data = ref<ITask[]>([])

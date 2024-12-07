@@ -6,11 +6,11 @@ import DotIcons from './icons/IconEllipsis.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useFetch } from '@/stores/useQueryStore'
 import { useRouter } from 'vue-router'
-import { OrderEnum, type IRequestQuery } from '@/types/type'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
-import { filterAndSortTasks } from '@/utility/utils'
 import { watch } from 'vue'
+import { Order } from '@/constants'
+import { filterAndSortTasks } from '@/lib/utils'
 const router = useRouter()
 const page = ref(1)
 const query = computed<IRequestQuery>(() => ({ page: page.value }))
@@ -55,8 +55,8 @@ onMounted(() => {
         <th class="text-left">Due Date</th>
         <th class="text-left flex flex-col justify-center items-center gap-1">
           <v-btn
-            :disabled="filterQuery.order === OrderEnum.ascending"
-            @click="(filterQuery.order = OrderEnum.ascending)"
+            :disabled="filterQuery.order === Order.ascending"
+            @click="(filterQuery.order = Order.ascending)"
             theme="primary"
             color="primary"
             class="w-[50%]"
@@ -66,8 +66,8 @@ onMounted(() => {
             <IconUp />
           </v-btn>
           <v-btn
-            :disabled="filterQuery.order === OrderEnum.descending"
-            @click="(filterQuery.order = OrderEnum.descending)"
+            :disabled="filterQuery.order === Order.descending"
+            @click="(filterQuery.order = Order.descending)"
             theme="primary"
             color="primary"
             class="w-[50%]"
