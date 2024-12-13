@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
-import { useRoute, useRouter } from 'vue-router'
+import { decryptId } from '@/lib/utils'
 const store = useTaskStore()
 const { deleteTask } = store
 const { data } = storeToRefs(store)
@@ -10,8 +9,8 @@ const { params } = useRoute()
 const { push, replace } = useRouter()
 const dialog = ref(false)
 const snackbar = ref(false)
-const taskData = computed((): ITask => {
-  const current = data.value.find((e) => e.id.toString() === params.id.toString())
+const taskData = computed((): Partial<ITask> => {
+  const current = data.value.find((e) => e.id.toString() === decryptId(params.id.toString()))
   if (current)
     return {
       ...current,
@@ -19,21 +18,15 @@ const taskData = computed((): ITask => {
   else {
     snackbar.value = true
     replace('/')
-    return {
-      title: '',
-      description: '',
-      due_date: '',
-      priority: 'High',
-      status: 'Pending',
-      id: 1,
-    }
+    return {}
   }
 })
 function handleEdit() {
   push({ name: 'edit', params: { id: taskData.value.id } })
 }
 function handleDelete() {
-  deleteTask(taskData.value.id)
+  if (!taskData?.value?.id) return
+  deleteTask(taskData?.value?.id)
   dialog.value = false
   push({ name: 'home' })
 }

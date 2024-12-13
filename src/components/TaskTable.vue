@@ -3,18 +3,16 @@ import SearchIcon from './icons/IconSearch.vue'
 import IconUp from './icons/IconUp.vue'
 import IconDown from './icons/IconDown.vue'
 import DotIcons from './icons/IconEllipsis.vue'
-import { computed, onMounted, ref } from 'vue'
 import { useFetch } from '@/stores/useQueryStore'
-import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
 import { Order } from '@/constants'
-import { filterAndSortTasks } from '@/lib/utils'
+import { encryptId, filterAndSortTasks, styleStatus } from '@/lib/utils'
 const router = useRouter()
 const page = ref(1)
 const query = computed<IRequestQuery>(() => ({ page: page.value }))
-const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
+// const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
+const apiStore = useFetch('https://run.mocky.io/v3/a3c2896d-0ec3-44df-b25f-2015f449522b', query)
 const { fetchData } = apiStore
 const store = useTaskStore()
 const { data, isLoading, error } = storeToRefs(store)
@@ -83,16 +81,16 @@ onMounted(() => {
       <tr
         v-for="task in filteredData"
         :key="task.id"
-        @click="router.push(`/view/${task.id}`)"
+        @click="router.push(`/view/${encryptId(task.id.toString())}`)"
         class="cursor-pointer hover:bg-gray-50"
       >
         <td>{{ task.title }}</td>
         <td>{{ task.description }}</td>
         <td>
-          <v-chip>{{ task.status }}</v-chip>
+          <v-chip class="capitalize" :color="styleStatus(task.status)">{{ task.status }}</v-chip>
         </td>
         <td>
-          <v-chip>{{ task.priority }}</v-chip>
+          <v-chip class="capitalize" :color="task.priority">{{ task.priority }}</v-chip>
         </td>
         <td>{{ task.due_date }}</td>
         <td>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { priorityVariant } from '@/constants'
 import { useTaskStore } from '@/stores/useTaskStore'
-import { Priority } from '@/constants'
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
@@ -29,8 +28,8 @@ const rules = {
 const taskData = reactive<Omit<ITask, 'id'>>({
   title: '',
   description: '',
-  status: 'Pending',
-  priority: 'Medium',
+  status: 'pending',
+  priority: '',
   due_date: new Date().toISOString().split('T')[0],
 })
 const { createTask, data } = useTaskStore()
@@ -45,7 +44,7 @@ const handleSubmit = async () => {
     })
     taskData.title = ''
     taskData.description = ''
-    taskData.priority = 'Medium'
+    taskData.priority = ''
     taskData.due_date = new Date().toISOString().split('T')[0]
 
     form.value?.reset()
@@ -70,39 +69,18 @@ const handleSubmit = async () => {
       variant="outlined"
     ></v-textarea>
     <div class="grid grid-cols-1 md:grid-cols-2 items-start justify-between md:gap-8 w-full">
-      <v-chip-group
+      <v-select
+        :items="priorityVariant"
         v-model="taskData.priority"
-        mandatory
-        selected-class="text-primary"
-        direction="vertical"
-        class="w-full"
+        item-title="label"
+        item-value="key"
+        color="primary"
         label="Priority"
-        data-test="grp-button"
       >
-        <p>Priority</p>
-        <v-chip
-          :key="Priority.High"
-          :text="Priority.High"
-          :value="Priority.High"
-          variant="outlined"
-          class="w-full"
-          data-test="high-button"
-        ></v-chip>
-        <v-chip
-          :key="Priority.Medium"
-          :text="Priority.Medium"
-          :value="Priority.Medium"
-          variant="outlined"
-          class="w-full"
-        ></v-chip>
-        <v-chip
-          :key="Priority.Low"
-          :text="Priority.Low"
-          :value="Priority.Low"
-          variant="outlined"
-          class="w-full"
-        ></v-chip>
-      </v-chip-group>
+        <template v-slot:item="{ props, item }">
+          <v-list-item v-bind="props" :disabled="item.raw.disabled"></v-list-item>
+        </template>
+      </v-select>
       <v-row class="w-full mx-auto mt-2">
         <label htmlFor="date">Due Date</label>
         <input

@@ -1,9 +1,8 @@
-import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTaskStore = defineStore('task', () => {
   const data = ref<ITask[]>([])
-  const filterQuery = reactive<Partial<IFilterQuery>>({})
+  const filterQuery = reactive<Partial<IFilterQuery>>({ status: '', priority: '' })
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   function updateTask(updatedTask: ITask) {

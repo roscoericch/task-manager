@@ -1,4 +1,4 @@
-import { watch, type ComputedRef } from 'vue'
+import type { ComputedRef } from 'vue'
 import { useTaskStore } from './useTaskStore'
 import { storeToRefs } from 'pinia'
 

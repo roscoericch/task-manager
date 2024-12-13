@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useTaskStore } from '@/stores/useTaskStore'
-import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { Priority, Status } from '@/constants'
+import { priorityVariant, statusVariant } from '@/constants'
 const route = useRoute()
 const router = useRouter()
 const store = useTaskStore()
 const { updateTask } = store
 const { data } = storeToRefs(store)
 const snackbar = ref(false)
-const taskData = computed((): ITask => {
+const taskData = computed((): ITask | undefined => {
   const current = data.value.find((e) => e.id.toString() === route.params.id.toString())
   if (current)
     return {
@@ -19,17 +17,17 @@ const taskData = computed((): ITask => {
   else {
     snackbar.value = true
     router.replace('/')
-    return {
-      title: '',
-      description: '',
-      due_date: new Date().toISOString().split('T')[0],
-      priority: Priority.High,
-      status: Status.Pending,
-      id: 1,
-    }
+    // return {
+    //   title: '',
+    //   description: '',
+    //   due_date: new Date().toISOString().split('T')[0],
+    //   priority: "High",
+    //   status:"Completed",
+    //   id: 1,
+    // }
   }
 })
-const min = new Date(taskData?.value?.due_date).toISOString().split('T')[0]
+const min = new Date(taskData?.value?.due_date ?? '').toISOString().split('T')[0]
 const form = ref<HTMLFormElement | null>(null)
 const rules = {
   title: [
@@ -65,13 +63,13 @@ const handleSubmit = async () => {
 <template>
   <form ref="form" @submit.prevent="handleSubmit">
     <v-text-field
-      v-model="taskData.title"
+      v-model="taskData?.title"
       label="Title"
       variant="outlined"
       :rules="rules.title"
     ></v-text-field>
     <v-textarea
-      v-model="taskData.description"
+      v-model="taskData?.description"
       label="Description"
       variant="outlined"
       rows="3"
@@ -79,77 +77,36 @@ const handleSubmit = async () => {
     ></v-textarea>
     <div class="grid grid-cols-1 md:grid-cols-2 items-start justify-between gap-8 w-full">
       <div>
-        <v-chip-group
-          v-model="taskData.priority"
-          mandatory
-          selected-class="text-primary"
-          direction="vertical"
-          class="w-full"
+        <v-select
+          :items="priorityVariant"
+          v-model="taskData?.priority"
+          item-title="label"
+          item-value="key"
+          color="primary"
           label="Priority"
-          data-test="grp-button"
         >
-          <p>Priority</p>
-          <v-chip
-            :key="Priority.High"
-            :text="Priority.High"
-            :value="Priority.High"
-            variant="outlined"
-            class="w-full"
-            data-test="high-button"
-          ></v-chip>
-          <v-chip
-            :key="Priority.Medium"
-            :text="Priority.Medium"
-            :value="Priority.Medium"
-            variant="outlined"
-            class="w-full"
-          ></v-chip>
-          <v-chip
-            :key="Priority.Low"
-            :text="Priority.Low"
-            :value="Priority.Low"
-            variant="outlined"
-            class="w-full"
-          ></v-chip>
-        </v-chip-group>
-        <v-chip-group
-          v-model="taskData.status"
-          mandatory
-          selected-class="text-primary"
-          direction="vertical"
-          class="w-full"
-          data-test="status-button"
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props" :disabled="item.raw.disabled"></v-list-item>
+          </template>
+        </v-select>
+        <v-select
+          :items="statusVariant"
+          v-model="taskData?.status"
+          item-title="label"
+          item-value="key"
+          color="primary"
+          label="Status"
         >
-          <p>Status</p>
-          <v-chip
-            :key="Status.Pending"
-            :text="Status.Pending"
-            :value="Status.Pending"
-            variant="outlined"
-            class="w-full"
-            data-test="pendingstatus-button"
-          ></v-chip>
-          <v-chip
-            :key="Status.InProgress"
-            :text="Status.InProgress"
-            :value="Status.InProgress"
-            variant="outlined"
-            class="w-full"
-          ></v-chip>
-          <v-chip
-            :key="Status.Completed"
-            :text="Status.Completed"
-            :value="Status.Completed"
-            variant="outlined"
-            class="w-full"
-          ></v-chip>
-        </v-chip-group>
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props" :disabled="item.raw.disabled"></v-list-item>
+          </template>
+        </v-select>
       </div>
       <v-row class="w-full mt-2">
         <label htmlFor="date">Due Date</label>
         <input
           class="w-full border border-b-slate-500"
-          v-model="taskData.due_date"
+          v-model="taskData?.due_date"
           id="date"
           type="date"
           :min="min"

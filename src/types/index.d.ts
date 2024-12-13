@@ -1,5 +1,5 @@
-declare type statusType = 'Pending' | 'In Progress' | 'Completed'
-declare type priorityType = 'Low' | 'Medium' | 'High'
+declare type statusType = 'pending' | 'in progress' | 'completed' | ''
+declare type priorityType = 'low' | 'medium' | 'high' | ''
 declare type orderType = 'ascending' | 'descending'
 
 declare interface ITask {
@@ -31,4 +31,10 @@ declare interface IFilterQuery {
   priority: priorityType
   search: string
   order: OrderEnum
+}
+
+declare interface IOptions {
+  key: string
+  label: string
+  disabled?: boolean
 }

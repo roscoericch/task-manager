@@ -1,16 +1,32 @@
-export const Priority: Record<string, priorityType> = {
-  High: 'High',
-  Low: 'Low',
-  Medium: 'Medium',
-}
+export const priorityVariant: ReadonlyArray<IOptions> = [
+  { key: '', label: 'Select', disabled: true },
+  { key: 'high', label: 'High' },
+  { key: 'low', label: 'Low' },
+  { key: 'medium', label: 'Medium' },
+]
 
-export const Status: Record<string, statusType> = {
-  Pending: 'Pending',
-  InProgress: 'In Progress',
-  Completed: 'Completed',
-}
+export const filterPriorityVariant: ReadonlyArray<IOptions> = [
+  { key: '', label: 'All' },
+  { key: 'high', label: 'High' },
+  { key: 'low', label: 'Low' },
+  { key: 'medium', label: 'Medium' },
+]
 
-export const Order: Record<string, orderType> = {
+export const statusVariant: ReadonlyArray<IOptions> = [
+  { key: '', label: 'Select', disabled: true },
+  { key: 'pending', label: 'Pending' },
+  { key: 'in progress', label: 'In Progress' },
+  { key: 'completed', label: 'Completed' },
+]
+
+export const filterStatusVariant: ReadonlyArray<IOptions> = [
+  { key: '', label: 'All' },
+  { key: 'pending', label: 'Pending' },
+  { key: 'in progress', label: 'In Progress' },
+  { key: 'completed', label: 'Completed' },
+]
+
+export const Order: Readonly<Record<string, orderType>> = {
   ascending: 'ascending',
   descending: 'descending',
 }
