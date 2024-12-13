@@ -2,12 +2,14 @@
 import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
 import { decryptId } from '@/lib/utils'
+import EditTask from './EditTask.vue'
 const store = useTaskStore()
 const { deleteTask } = store
 const { data } = storeToRefs(store)
 const { params } = useRoute()
 const { push, replace } = useRouter()
 const dialog = ref(false)
+const editDialog = ref(false)
 const snackbar = ref(false)
 const taskData = computed((): Partial<ITask> => {
   const current = data.value.find((e) => e.id.toString() === decryptId(params.id.toString()))
@@ -21,9 +23,6 @@ const taskData = computed((): Partial<ITask> => {
     return {}
   }
 })
-function handleEdit() {
-  push({ name: 'edit', params: { id: taskData.value.id } })
-}
 function handleDelete() {
   if (!taskData?.value?.id) return
   deleteTask(taskData?.value?.id)
@@ -32,18 +31,20 @@ function handleDelete() {
 }
 </script>
 <template>
-  <main class="bg-white px-[5%] py-[2%] flex flex-col gap-4">
+  <main class="bg-white px-[5%] py-[2%] flex flex-col gap-4 w-full">
     <header class="flex flex-col md:flex-row justify-between items-center w-full">
       <span class="w-full">
         <h1 class="text-[18px] md:text-3xl font-bold text-gray-800 capitalize">
           {{ taskData.title }}
         </h1>
       </span>
-      <div class="flex items-center w-full justify-start md:justify-end gap-4">
-        <v-btn data-test="edit-btn" theme="primary" color="primary" @click="handleEdit">Edit</v-btn>
+      <div class="flex items-center w-fit justify-start md:justify-end gap-4">
+        <v-btn data-test="edit-btn" theme="primary" color="primary" @click="(editDialog = true)"
+          >Edit</v-btn
+        >
         <v-btn
           data-test="delete-btn"
-          color="primary"
+          color="error"
           style=""
           theme="primary"
           @click="(dialog = true)"
@@ -84,7 +85,7 @@ function handleDelete() {
     </div>
     <v-dialog v-model="dialog" width="auto">
       <v-card rounded="lg">
-        <v-card-title class="d-flex justify-space-between align-center">
+        <v-card-title class="">
           <div class="text-h5 text-medium-emphasis ps2">Delete Task?</div>
           <p class="text-[16px]">This task will be permanently deleted and cannot be recovered</p>
         </v-card-title>
@@ -93,8 +94,9 @@ function handleDelete() {
           <v-btn color="primary" text="Cancel" @click="(dialog = false)"></v-btn>
           <v-btn
             data-test="confirm-btn"
-            color="primary"
             text="Delete"
+            variant="tonal"
+            color="error"
             @click="handleDelete"
           ></v-btn>
         </template>
@@ -108,4 +110,20 @@ function handleDelete() {
       </template>
     </v-snackbar>
   </main>
+  <v-dialog v-model="editDialog" width="500">
+    <v-card class="px-[5%] py-[7%] relative" rounded="lg">
+      <v-btn
+        variant="plain"
+        position="absolute"
+        class="top-[1%] right-[0px]"
+        @click="(editDialog = false)"
+        color="error"
+        density="compact"
+        :ripple="false"
+      >
+        <template v-slot:default> <CloseIcon class="" /> </template
+      ></v-btn>
+      <EditTask @close="(editDialog = false)" />
+    </v-card>
+  </v-dialog>
 </template>

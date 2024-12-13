@@ -1,6 +1,7 @@
 declare type statusType = 'pending' | 'in progress' | 'completed' | ''
 declare type priorityType = 'low' | 'medium' | 'high' | ''
 declare type orderType = 'ascending' | 'descending'
+declare type Nullable<T> = T | null
 
 declare interface ITask {
   title: string

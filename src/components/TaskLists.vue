@@ -2,6 +2,7 @@
 import CreateTask from './CreateTask.vue'
 import TaskTable from './TaskTable.vue'
 import AddIcon from './icons/IconAdd.vue'
+import CloseIcon from './icons/IconClose.vue'
 import { filterPriorityVariant, filterStatusVariant } from '@/constants'
 import { useTaskStore } from '@/stores/useTaskStore'
 const store = useTaskStore()
@@ -57,7 +58,18 @@ const dialog = ref(false)
   </div>
   <TaskTable />
   <v-dialog v-model="dialog" width="500">
-    <v-card class="p-[5%]" rounded="lg">
+    <v-card class="px-[5%] py-[7%] relative" rounded="lg">
+      <v-btn
+        variant="plain"
+        position="absolute"
+        class="top-[1%] right-[0px]"
+        @click="(dialog = false)"
+        color="error"
+        density="compact"
+        :ripple="false"
+      >
+        <template v-slot:default> <CloseIcon class="" /> </template
+      ></v-btn>
       <CreateTask @close="(dialog = false)" />
     </v-card>
   </v-dialog>
