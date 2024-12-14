@@ -1,6 +1,7 @@
 import type { ComputedRef } from 'vue'
 import { useTaskStore } from './useTaskStore'
 import { storeToRefs } from 'pinia'
+import tasks from '@/constants/task.json'
 
 export function useFetch(url: string, query: ComputedRef<IRequestQuery>) {
   const store = useTaskStore()
@@ -21,6 +22,7 @@ export function useFetch(url: string, query: ComputedRef<IRequestQuery>) {
       if (data.value.length === 0) refreshTask(result)
     } catch (err) {
       updateErrorState((err as Error).message)
+      refreshTask(tasks as ITask[])
     } finally {
       updateLoadingState(false)
     }
