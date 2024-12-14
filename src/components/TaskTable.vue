@@ -12,7 +12,7 @@ const router = useRouter()
 const page = ref(1)
 const query = computed<IRequestQuery>(() => ({ page: page.value }))
 // const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
-const apiStore = useFetch('https://run.mocky.io/v3/a3c2896d-0ec3-44df-b25f-2015f449522b', query)
+const apiStore = useFetch('https://run.mocky.io/v3/df9d0d32-8e68-40cd-8d62-8ebb4b1b71e7', query)
 const { fetchData } = apiStore
 const store = useTaskStore()
 const { data, isLoading, error } = storeToRefs(store)
@@ -98,10 +98,13 @@ onMounted(() => {
         </td>
       </tr>
     </tbody>
-    <SearchIcon
+    <div
       v-if="!isLoading && filteredData?.length === 0"
-      class="absolute top-[40%] right-[45%]"
-    />
+      class="absolute top-[40%] right-[45%] flex flex-col items-center"
+    >
+      <SearchIcon />
+      <h6 class="text-[16px] font-[600]">No Available Tasks</h6>
+    </div>
   </v-table>
   <v-pagination
     color="primary"
