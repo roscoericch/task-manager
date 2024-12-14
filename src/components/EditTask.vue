@@ -5,6 +5,7 @@ import { priorityVariant, statusVariant } from '@/constants'
 import { decryptId } from '@/lib/utils'
 const emit = defineEmits<{
   (e: 'close'): void
+  (e: 'success'): void
 }>()
 const route = useRoute()
 const store = useTaskStore()
@@ -41,8 +42,6 @@ const updateTaskData = () => {
     Object.assign(taskData, initialTaskData)
   }
 }
-
-// Call updateTaskData to initialize taskData
 updateTaskData()
 const form = ref<HTMLFormElement | null>(null)
 const rules = {
@@ -55,6 +54,7 @@ const rules = {
     (v: string) => v.length <= 500 || 'Description must be less than 500 characters',
   ],
   priority: [(v: string) => !!v || 'Priority is required'],
+  status: [(v: string) => !!v || 'Status is required'],
   due_date: [
     (v: Nullable<Date>) => !!v || 'Due date is required',
     (v: Nullable<Date>) => {
@@ -97,6 +97,7 @@ const handleSubmit = async () => {
     })
     form.value?.reset()
     emit('close')
+    emit('success')
   }
 }
 </script>
@@ -108,6 +109,7 @@ const handleSubmit = async () => {
       label="Title"
       :rules="rules.title"
       variant="outlined"
+      color="primary"
     ></v-text-field>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.title" />
     <v-textarea
@@ -116,6 +118,7 @@ const handleSubmit = async () => {
       :rules="rules.description"
       rows="3"
       variant="outlined"
+      color="primary"
     ></v-textarea>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.description" />
     <div class="grid grid-cols-1 md:grid-cols-2 items-start justify-between md:gap-8 w-full">
@@ -137,20 +140,37 @@ const handleSubmit = async () => {
         <v-messages v-if="!form?.value?.checkValidity()" :value="rules.priority" />
       </span>
       <span>
-        <v-date-input
-          label="Select a date"
-          prepend-icon=""
-          v-model="taskData.due_date"
-          prepend-inner-icon="$calendar"
-          variant="outlined"
+        <v-select
+          :items="statusVariant"
+          v-model="taskData.status"
+          item-title="label"
+          item-value="key"
           color="primary"
+          label="Status"
+          variant="outlined"
           density="compact"
-          :rules="rules.due_date"
-          id="date"
-        ></v-date-input>
-        <v-messages v-if="!form?.value?.checkValidity()" :value="rules.due_date" />
+        >
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props" :disabled="item.raw.disabled"></v-list-item>
+          </template>
+        </v-select>
+        <v-messages v-if="!form?.value?.checkValidity()" :value="rules.status" />
       </span>
     </div>
+    <span>
+      <v-date-input
+        label="Select a date"
+        prepend-icon=""
+        v-model="taskData.due_date"
+        prepend-inner-icon="$calendar"
+        variant="outlined"
+        color="primary"
+        density="compact"
+        :rules="rules.due_date"
+        id="date"
+      ></v-date-input>
+      <v-messages v-if="!form?.value?.checkValidity()" :value="rules.due_date" />
+    </span>
     <v-btn :disabled="!validateForm()" type="submit" color="primary" block class="mt-4">
       Update Task
     </v-btn>

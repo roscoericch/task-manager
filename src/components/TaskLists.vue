@@ -8,6 +8,7 @@ import { useTaskStore } from '@/stores/useTaskStore'
 const store = useTaskStore()
 const { filterQuery } = store
 const dialog = ref(false)
+const snackbar = ref(false)
 </script>
 <template>
   <div class="flex flex-col md:flex-row justify-between gap-2 md:gap-[2rem] items-stretch">
@@ -70,7 +71,10 @@ const dialog = ref(false)
       >
         <template v-slot:default> <CloseIcon class="" /> </template
       ></v-btn>
-      <CreateTask @close="(dialog = false)" />
+      <CreateTask @success="(snackbar = true)" @close="(dialog = false)" />
     </v-card>
   </v-dialog>
+  <v-snackbar close-delay="8000" close-on-content-click v-model="snackbar">
+    Task Created Successfully
+  </v-snackbar>
 </template>

@@ -3,6 +3,7 @@ import { priorityVariant } from '@/constants'
 import { useTaskStore } from '@/stores/useTaskStore'
 const emit = defineEmits<{
   (e: 'close'): void
+  (e: 'success'): void
 }>()
 const form = ref<HTMLFormElement | null>(null)
 const rules = {
@@ -69,6 +70,7 @@ const handleSubmit = async () => {
     taskData.due_date = null
     form.value?.reset()
     emit('close')
+    emit('success')
   }
 }
 </script>
@@ -80,6 +82,7 @@ const handleSubmit = async () => {
       label="Title"
       :rules="rules.title"
       variant="outlined"
+      color="primary"
     ></v-text-field>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.title" />
     <v-textarea
@@ -88,6 +91,7 @@ const handleSubmit = async () => {
       :rules="rules.description"
       rows="3"
       variant="outlined"
+      color="primary"
     ></v-textarea>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.description" />
     <div class="grid grid-cols-1 md:grid-cols-2 items-start justify-between md:gap-8 w-full">
