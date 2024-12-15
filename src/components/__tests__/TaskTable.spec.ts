@@ -32,16 +32,16 @@ describe('TaskTable.vue', () => {
         id: 1,
         title: 'Test Task 1',
         description: 'Description for task 1',
-        status: 'Pending',
-        priority: 'High',
+        status: 'pending',
+        priority: 'high',
         due_date: '2023-12-31',
       },
       {
         id: 2,
         title: 'Test Task 2',
         description: 'Description for task 2',
-        status: 'Completed',
-        priority: 'Medium',
+        status: 'completed',
+        priority: 'medium',
         due_date: '2023-11-30',
       },
     ]
@@ -79,14 +79,14 @@ describe('TaskTable.vue', () => {
 
     expect(rows[0].text()).toContain('Test Task 1')
     expect(rows[0].text()).toContain('Description for task 1')
-    expect(rows[0].text()).toContain('Pending')
-    expect(rows[0].text()).toContain('High')
+    expect(rows[0].text()).toContain('pending')
+    expect(rows[0].text()).toContain('high')
     expect(rows[0].text()).toContain('2023-12-31')
 
     expect(rows[1].text()).toContain('Test Task 2')
     expect(rows[1].text()).toContain('Description for task 2')
-    expect(rows[1].text()).toContain('Completed')
-    expect(rows[1].text()).toContain('Medium')
+    expect(rows[1].text()).toContain('completed')
+    expect(rows[1].text()).toContain('medium')
     expect(rows[1].text()).toContain('2023-11-30')
   })
 

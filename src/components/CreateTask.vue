@@ -57,7 +57,6 @@ const validateForm = () => {
 }
 const handleSubmit = async () => {
   const valid = validateForm()
-  console.log(taskData.due_date, valid)
   if (valid) {
     createTask({
       ...taskData,
@@ -76,13 +75,14 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <form ref="form" @submit.prevent="handleSubmit">
+  <form role="form" ref="form" @submit.prevent="handleSubmit">
     <v-text-field
       v-model="taskData.title"
       label="Title"
       :rules="rules.title"
       variant="outlined"
       color="primary"
+      data-testid="title"
     ></v-text-field>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.title" />
     <v-textarea
@@ -92,6 +92,7 @@ const handleSubmit = async () => {
       rows="3"
       variant="outlined"
       color="primary"
+      data-testid="description"
     ></v-textarea>
     <v-messages v-if="!form?.value?.checkValidity()" :value="rules.description" />
     <div class="grid grid-cols-1 md:grid-cols-2 items-start justify-between md:gap-8 w-full">
@@ -105,6 +106,7 @@ const handleSubmit = async () => {
           label="Priority"
           variant="outlined"
           density="compact"
+          data-testid="priority"
         >
           <template v-slot:item="{ props, item }">
             <v-list-item v-bind="props" :disabled="item.raw.disabled"></v-list-item>
@@ -123,11 +125,19 @@ const handleSubmit = async () => {
           density="compact"
           :rules="rules.due_date"
           id="date"
+          data-testid="date"
         ></v-date-input>
         <v-messages v-if="!form?.value?.checkValidity()" :value="rules.due_date" />
       </span>
     </div>
-    <v-btn :disabled="!validateForm()" type="submit" color="primary" block class="mt-4">
+    <v-btn
+      data-testid="submit-button"
+      :disabled="!validateForm()"
+      type="submit"
+      color="primary"
+      block
+      class="mt-4"
+    >
       Create Task
     </v-btn>
   </form>
