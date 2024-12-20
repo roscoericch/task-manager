@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 
 export const useTaskStore = defineStore('task', () => {
   const data = ref<ITask[]>([])
-  const filterQuery = reactive<Partial<IFilterQuery>>({ status: '', priority: '' })
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   function updateTask(updatedTask: ITask) {
@@ -16,12 +15,6 @@ export const useTaskStore = defineStore('task', () => {
   }
   function deleteTask(taskId: number) {
     data.value = data.value.filter((e) => e.id !== taskId)
-  }
-  function updateFilterQuery(filter: Partial<IFilterQuery>) {
-    filterQuery.priority = filter.priority
-    filterQuery.status = filter.status
-    filterQuery.order = filter.order
-    filterQuery.search = filter.search
   }
   function createTask(task: ITask) {
     data.value.push(task)
@@ -37,11 +30,9 @@ export const useTaskStore = defineStore('task', () => {
     deleteTask,
     refreshTask,
     createTask,
-    updateFilterQuery,
     updateLoadingState,
     updateErrorState,
     data,
-    filterQuery,
     isLoading,
     error,
   }

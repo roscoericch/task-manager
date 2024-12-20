@@ -4,9 +4,34 @@ import TaskTable from './TaskTable.vue'
 import AddIcon from './icons/IconAdd.vue'
 import CloseIcon from './icons/IconClose.vue'
 import { filterPriorityVariant, filterStatusVariant } from '@/constants'
-import { useTaskStore } from '@/stores/useTaskStore'
-const store = useTaskStore()
-const { filterQuery } = store
+
+const route = useRoute()
+const router = useRouter()
+const filterQuery = reactive<Partial<IFilterQuery>>({
+  search: (route.query.search as string) || '',
+  priority: (route.query.priority as priorityType) || '',
+  order: (route.query.order as orderType) || '',
+  status: (route.query.status as statusType) || '',
+})
+watch(filterQuery, (newValue) => {
+  router.push({
+    query: {
+      ...route.query,
+      search: newValue.search || undefined,
+      priority: newValue.priority || undefined,
+      status: newValue.status || undefined,
+    },
+  })
+})
+
+watch(
+  () => route.query,
+  (newValue) => {
+    filterQuery.priority = newValue.priority as priorityType
+    filterQuery.status = newValue.status as statusType
+    filterQuery.search = newValue.search as string
+  },
+)
 const dialog = ref(false)
 const snackbar = ref(false)
 </script>

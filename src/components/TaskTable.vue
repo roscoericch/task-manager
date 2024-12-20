@@ -9,6 +9,7 @@ import { storeToRefs } from 'pinia'
 import { Order } from '@/constants'
 import { encryptId, filterAndSortTasks, styleStatus } from '@/lib/utils'
 const router = useRouter()
+const route = useRoute()
 const page = ref(1)
 const query = computed<IRequestQuery>(() => ({ page: page.value }))
 // const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
@@ -20,11 +21,37 @@ const snackbar = ref(false)
 watch(error, (newValue) => {
   snackbar.value = Boolean(newValue)
 })
-const { filterQuery } = store
+
+const filterQuery = reactive<Partial<IFilterQuery>>({
+  search: (route.query.search as string) || '',
+  priority: (route.query.priority as priorityType) || '',
+  order: (route.query.order as orderType) || '',
+  status: (route.query.status as statusType) || '',
+})
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    filterQuery.search = (newQuery.search as string) || ''
+    filterQuery.priority = (newQuery.priority as priorityType) || ''
+    filterQuery.status = (newQuery.status as statusType) || ''
+    filterQuery.order = (newQuery.order as orderType) || ''
+  },
+)
+
 const filteredData = computed(() => {
   if (!filterQuery) return data.value
   return filterAndSortTasks(data.value, filterQuery)
 })
+
+const updateQuery = (key: string, value: string) => {
+  router.push({
+    query: {
+      ...route.query,
+      [key]: value,
+    },
+  })
+}
 
 onMounted(() => {
   fetchData()
@@ -53,8 +80,11 @@ onMounted(() => {
         <th class="text-left">Due Date</th>
         <th class="text-left flex flex-col justify-center items-center gap-1">
           <v-btn
-            :disabled="filterQuery.order === Order.ascending"
-            @click="(filterQuery.order = Order.ascending)"
+            @click="
+              filterQuery.order === Order.ascending
+                ? updateQuery('order', '')
+                : updateQuery('order', Order.ascending)
+            "
             theme="primary"
             color="primary"
             class="w-[50%]"
@@ -64,8 +94,11 @@ onMounted(() => {
             <IconUp />
           </v-btn>
           <v-btn
-            :disabled="filterQuery.order === Order.descending"
-            @click="(filterQuery.order = Order.descending)"
+            @click="
+              filterQuery.order === Order.descending
+                ? updateQuery('order', '')
+                : updateQuery('order', Order.descending)
+            "
             theme="primary"
             color="primary"
             class="w-[50%]"

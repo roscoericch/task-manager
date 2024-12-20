@@ -17,6 +17,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "pinia": "^2.2.6",
+    "query-string": "^9.1.1",
     "tailwind-merge": "^2.5.5",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5",
