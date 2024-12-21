@@ -17,9 +17,10 @@ watch(filterQuery, (newValue) => {
   router.replace({
     query: {
       ...route.query,
-      search: newValue.search || undefined,
-      priority: newValue.priority || undefined,
-      status: newValue.status || undefined,
+      search: newValue.search || '',
+      priority: newValue.priority || '',
+      status: newValue.status || '',
+      order: newValue.order || '',
     },
   })
 })

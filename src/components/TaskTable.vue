@@ -23,13 +23,6 @@ watch(error, (newValue) => {
 })
 
 watch(
-  () => filterQuery.order,
-  (newQuery) => {
-    updateQuery('order', newQuery)
-  },
-)
-
-watch(
   () => query.page,
   (newQuery) => {
     updateQuery('page', newQuery.toString())
