@@ -3,7 +3,7 @@ import { useTaskStore } from './useTaskStore'
 import { storeToRefs } from 'pinia'
 import tasks from '@/constants/task.json'
 
-export function useFetch(url: string, query: ComputedRef<IRequestQuery>) {
+export function useFetch(url: string, query?: IRequestQuery) {
   const store = useTaskStore()
   const { refreshTask, updateLoadingState, updateErrorState } = store
   const { data } = storeToRefs(store)
@@ -12,7 +12,7 @@ export function useFetch(url: string, query: ComputedRef<IRequestQuery>) {
     updateLoadingState(true)
     updateErrorState(null)
     try {
-      const queryParams = new URLSearchParams(Object.entries(query.value)).toString()
+      const queryParams = new URLSearchParams(Object.entries(query || {})).toString()
       const fullUrl = queryParams ? `${url}?${queryParams}` : url
       const response = await fetch(fullUrl)
       if (!response.ok) {
@@ -27,7 +27,7 @@ export function useFetch(url: string, query: ComputedRef<IRequestQuery>) {
       updateLoadingState(false)
     }
   }
-  watch(query, fetchData, { deep: true, immediate: true })
+  watch(query || {}, fetchData, { deep: true, immediate: true })
 
   return { fetchData }
 }

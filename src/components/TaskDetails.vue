@@ -5,6 +5,7 @@ import { decryptId } from '@/lib/utils'
 import EditTask from './EditTask.vue'
 import CloseIcon from './icons/IconClose.vue'
 import BackIcon from './icons/IconBack.vue'
+import { toast } from 'vue3-toastify'
 const store = useTaskStore()
 const { deleteTask } = store
 const { data } = storeToRefs(store)
@@ -12,8 +13,6 @@ const { params } = useRoute()
 const { push, replace, back } = useRouter()
 const dialog = ref(false)
 const editDialog = ref(false)
-const snackbar = ref(false)
-const sucessSnackbar = ref(false)
 const taskData = computed((): Partial<ITask> => {
   const current = data.value.find((e) => e.id.toString() === decryptId(params.id.toString()))
   if (current)
@@ -21,16 +20,23 @@ const taskData = computed((): Partial<ITask> => {
       ...current,
     }
   else {
-    snackbar.value = true
-    replace('/')
+    toast.error('Task not found', {
+      onClose: () => {
+        replace('/')
+      },
+    })
     return {}
   }
 })
 function handleDelete() {
   if (!taskData?.value?.id) return
   deleteTask(taskData?.value?.id)
+  toast.success('Task Deleted Succesfully', {
+    onClose: () => {
+      push({ name: 'home' })
+    },
+  })
   dialog.value = false
-  push({ name: 'home' })
 }
 </script>
 <template>
@@ -118,13 +124,6 @@ function handleDelete() {
         </template>
       </v-card>
     </v-dialog>
-    <v-snackbar close-delay="4000" close-on-content-click v-model="snackbar">
-      Task does not exist
-
-      <template v-slot:actions>
-        <v-btn color="pink" variant="text" @click="(snackbar = false)"> Close </v-btn>
-      </template>
-    </v-snackbar>
   </main>
   <v-dialog v-model="editDialog" width="500">
     <v-card class="px-[5%] py-[7%] relative" rounded="lg">
@@ -150,10 +149,7 @@ function handleDelete() {
       >
         <template v-slot:default> <CloseIcon class="" /> </template
       ></v-btn>
-      <EditTask @success="(sucessSnackbar = true)" @close="(editDialog = false)" />
+      <EditTask @close="(editDialog = false)" />
     </v-card>
   </v-dialog>
-  <v-snackbar close-delay="8000" close-on-content-click v-model="sucessSnackbar">
-    Task Updated Successfully
-  </v-snackbar>
 </template>

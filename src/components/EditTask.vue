@@ -3,15 +3,14 @@ import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
 import { priorityVariant, statusVariant } from '@/constants'
 import { decryptId } from '@/lib/utils'
+import { toast } from 'vue3-toastify'
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'success'): void
 }>()
 const route = useRoute()
 const store = useTaskStore()
 const { updateTask } = store
 const { data } = storeToRefs(store)
-const snackbar = ref(false)
 const initialTaskData: Omit<ITask, 'due_date'> & { due_date: Nullable<Date> } = {
   title: '',
   description: '',
@@ -37,8 +36,11 @@ const updateTaskData = () => {
       due_date: new Date(current.due_date),
     })
   } else {
-    snackbar.value = true
-    emit('close')
+    toast.error('Error fetching Task', {
+      onClose: () => {
+        emit('close')
+      },
+    })
     Object.assign(taskData, initialTaskData)
   }
 }
@@ -55,15 +57,7 @@ const rules = {
   ],
   priority: [(v: string) => !!v || 'Priority is required'],
   status: [(v: string) => !!v || 'Status is required'],
-  due_date: [
-    (v: Nullable<Date>) => !!v || 'Due date is required',
-    (v: Nullable<Date>) => {
-      if (!v) return 'Due date is required'
-      const selected = new Date(v)
-      const today = new Date()
-      return selected > today || 'Due date must not be in the past'
-    },
-  ],
+  due_date: [(v: Nullable<Date>) => !!v || 'Due date is required'],
 }
 const validateForm = () => {
   const errors: string[] = []
@@ -93,11 +87,11 @@ const handleSubmit = async () => {
   if (valid && taskData) {
     updateTask({
       ...taskData,
-      due_date: new Date(taskData.due_date!).toISOString().split('T')[0],
+      due_date: new Date(taskData.due_date!).toLocaleDateString('en-US'),
     })
     form.value?.reset()
+    toast.success('Task Updated Succesfully')
     emit('close')
-    emit('success')
   }
 }
 </script>

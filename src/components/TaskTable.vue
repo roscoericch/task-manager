@@ -10,11 +10,8 @@ import { Order } from '@/constants'
 import { encryptId, filterAndSortTasks, styleStatus } from '@/lib/utils'
 const router = useRouter()
 const route = useRoute()
-const page = ref(1)
-const query = computed<IRequestQuery>(() => ({ page: page.value }))
-// const apiStore = useFetch('https://run.mocky.io/v3/dbd7063e-9fd2-440e-ba74-1b0387a2d5b0', query)
-const apiStore = useFetch('https://run.mocky.io/v3/df9d0d32-8e68-40cd-8d62-8ebb4b1b71e7', query)
-const { fetchData } = apiStore
+const query: IRequestQuery = reactive({ page: Number(route.query.page || 1) })
+useFetch('https://run.mocky.io/v3/df9d0d32-8e68-40cd-8d62-8ebb4b1b71e7', query)
 const store = useTaskStore()
 const { data, isLoading, error } = storeToRefs(store)
 const snackbar = ref(false)
@@ -36,6 +33,7 @@ watch(
     filterQuery.priority = (newQuery.priority as priorityType) || ''
     filterQuery.status = (newQuery.status as statusType) || ''
     filterQuery.order = (newQuery.order as orderType) || ''
+    query.page = Number(newQuery.page || 1)
   },
 )
 
@@ -52,10 +50,6 @@ const updateQuery = (key: string, value: string) => {
     },
   })
 }
-
-onMounted(() => {
-  fetchData()
-})
 </script>
 <template>
   <v-progress-circular
@@ -136,19 +130,46 @@ onMounted(() => {
       class="absolute top-[40%] right-[45%] flex flex-col items-center"
     >
       <SearchIcon />
-      <h6 class="text-[16px] font-[600]">No Available Tasks</h6>
+      <h6 class="text-[16px] font-[600]">No Tasks Available</h6>
     </div>
   </v-table>
   <v-pagination
     color="primary"
-    v-model="page"
+    :model-value="query.page"
     :length="15"
     :total-visible="5"
-    class="md:my-4 w-[80%] mx-auto"
-    next-icon="mdi-menu-right"
-    prev-icon="mdi-menu-left"
+    class="md:my-1 w-[80%] mx-auto"
     v-if="filteredData && filteredData.length > 5"
-  ></v-pagination>
+    @update:model-value="
+      (value) => {
+        updateQuery('page', value.toString())
+        query.page = value
+      }
+    "
+  >
+    <template v-slot:prev="arg">
+      <v-btn
+        :disabled="arg.disabled"
+        @click="arg.onClick"
+        class="mt-1 text-[1.5rem]"
+        variant="plain"
+        color="primary"
+        width="1rem"
+        >&#x2039;</v-btn
+      >
+    </template>
+    <template v-slot:next="arg">
+      <v-btn
+        :disabled="arg.disabled"
+        @click="arg.onClick"
+        class="mt-1 text-[1.5rem]"
+        variant="plain"
+        color="primary"
+        width="1rem"
+        >&#x203A;</v-btn
+      >
+    </template>
+  </v-pagination>
   <v-snackbar close-delay="4000" close-on-content-click v-model="snackbar">
     {{ error }}
 

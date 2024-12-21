@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { priorityVariant } from '@/constants'
 import { useTaskStore } from '@/stores/useTaskStore'
+import { toast } from 'vue3-toastify'
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'success'): void
 }>()
 const form = ref<HTMLFormElement | null>(null)
 const rules = {
@@ -61,15 +61,15 @@ const handleSubmit = async () => {
     createTask({
       ...taskData,
       id: data.length + 1,
-      due_date: new Date(taskData.due_date!).toISOString().split('T')[0],
+      due_date: new Date(taskData.due_date!).toLocaleDateString('en-US'),
     })
     taskData.title = ''
     taskData.description = ''
     taskData.priority = ''
     taskData.due_date = null
     form.value?.reset()
+    toast.success('Task Created Successfully')
     emit('close')
-    emit('success')
   }
 }
 </script>

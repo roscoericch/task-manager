@@ -12,6 +12,8 @@ import './index.css'
 import { PrimaryTheme } from './theme/LightTheme'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { VDateInput } from 'vuetify/labs/VDateInput'
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const app = createApp(App)
 const vuetify = createVuetify({
@@ -42,5 +44,9 @@ const vuetify = createVuetify({
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
+app.use(Vue3Toastify, {
+  autoClose: 3000,
+  position: 'top-right',
+} as ToastContainerOptions)
 
 app.mount('#app')

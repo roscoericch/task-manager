@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import LogoIcon from '@/components/icons/IconLogo.vue'
+import { useFetch } from './stores/useQueryStore'
+const apiStore = useFetch('https://run.mocky.io/v3/df9d0d32-8e68-40cd-8d62-8ebb4b1b71e7')
+const { fetchData } = apiStore
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>
