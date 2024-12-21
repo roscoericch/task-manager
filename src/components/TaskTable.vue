@@ -43,7 +43,7 @@ const filteredData = computed(() => {
 })
 
 const updateQuery = (key: string, value: string) => {
-  router.push({
+  router.replace({
     query: {
       ...route.query,
       [key]: value,

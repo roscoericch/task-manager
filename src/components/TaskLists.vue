@@ -14,7 +14,7 @@ const filterQuery = reactive<Partial<IFilterQuery>>({
   status: (route.query.status as statusType) || '',
 })
 watch(filterQuery, (newValue) => {
-  router.push({
+  router.replace({
     query: {
       ...route.query,
       search: newValue.search || undefined,
