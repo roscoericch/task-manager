@@ -8,6 +8,9 @@ import { useTaskStore } from '@/stores/useTaskStore'
 import { storeToRefs } from 'pinia'
 import { Order } from '@/constants'
 import { encryptId, filterAndSortTasks, styleStatus } from '@/lib/utils'
+const { filterQuery } = defineProps<{
+  filterQuery: Partial<IFilterQuery>
+}>()
 const router = useRouter()
 const route = useRoute()
 const query: IRequestQuery = reactive({ page: Number(route.query.page || 1) })
@@ -19,21 +22,17 @@ watch(error, (newValue) => {
   snackbar.value = Boolean(newValue)
 })
 
-const filterQuery = reactive<Partial<IFilterQuery>>({
-  search: (route.query.search as string) || '',
-  priority: (route.query.priority as priorityType) || '',
-  order: (route.query.order as orderType) || '',
-  status: (route.query.status as statusType) || '',
-})
+watch(
+  () => filterQuery.order,
+  (newQuery) => {
+    updateQuery('order', newQuery)
+  },
+)
 
 watch(
-  () => route.query,
+  () => query.page,
   (newQuery) => {
-    filterQuery.search = (newQuery.search as string) || ''
-    filterQuery.priority = (newQuery.priority as priorityType) || ''
-    filterQuery.status = (newQuery.status as statusType) || ''
-    filterQuery.order = (newQuery.order as orderType) || ''
-    query.page = Number(newQuery.page || 1)
+    updateQuery('page', newQuery.toString())
   },
 )
 
@@ -76,8 +75,8 @@ const updateQuery = (key: string, value: string) => {
           <v-btn
             @click="
               filterQuery.order === Order.ascending
-                ? updateQuery('order', '')
-                : updateQuery('order', Order.ascending)
+                ? (filterQuery.order = '')
+                : (filterQuery.order = Order.ascending)
             "
             theme="primary"
             color="primary"
@@ -90,8 +89,8 @@ const updateQuery = (key: string, value: string) => {
           <v-btn
             @click="
               filterQuery.order === Order.descending
-                ? updateQuery('order', '')
-                : updateQuery('order', Order.descending)
+                ? (filterQuery.order = '')
+                : (filterQuery.order = Order.descending)
             "
             theme="primary"
             color="primary"
@@ -135,17 +134,11 @@ const updateQuery = (key: string, value: string) => {
   </v-table>
   <v-pagination
     color="primary"
-    :model-value="query.page"
+    v-model="query.page"
     :length="15"
     :total-visible="5"
     class="md:my-1 w-[80%] mx-auto"
     v-if="filteredData && filteredData.length > 5"
-    @update:model-value="
-      (value) => {
-        updateQuery('page', value.toString())
-        query.page = value
-      }
-    "
   >
     <template v-slot:prev="arg">
       <v-btn

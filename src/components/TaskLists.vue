@@ -23,15 +23,6 @@ watch(filterQuery, (newValue) => {
     },
   })
 })
-
-watch(
-  () => route.query,
-  (newValue) => {
-    filterQuery.priority = newValue.priority as priorityType
-    filterQuery.status = newValue.status as statusType
-    filterQuery.search = newValue.search as string
-  },
-)
 const dialog = ref(false)
 </script>
 <template>
@@ -81,7 +72,7 @@ const dialog = ref(false)
       </v-btn>
     </div>
   </div>
-  <TaskTable />
+  <TaskTable :filterQuery="filterQuery" />
   <v-dialog v-model="dialog" width="500">
     <v-card class="px-[5%] py-[7%] relative" rounded="lg">
       <v-btn
