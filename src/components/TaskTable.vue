@@ -54,7 +54,7 @@ const updateQuery = (key: string, value: string) => {
   <v-table
     v-if="!isLoading"
     class="shadow-sm border border-[#efefee] rounded-[6px] relative"
-    height="550px"
+    height="600px"
     fixed-header
   >
     <thead>
