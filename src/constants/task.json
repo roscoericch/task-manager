@@ -78,5 +78,45 @@
     "status": "pending",
     "priority": "low",
     "due_date": "12/21/24"
+  },
+  {
+    "id": 11,
+    "title": "Update number of tasks",
+    "description": "Evaluate potential technologies for the new project.",
+    "status": "pending",
+    "priority": "low",
+    "due_date": "12/21/25"
+  },
+  {
+    "id": 12,
+    "title": "Implement Cypress end to end integration",
+    "description": "Evaluate potential technologies for the new project.",
+    "status": "pending",
+    "priority": "low",
+    "due_date": "12/21/24"
+  },
+  {
+    "id": 13,
+    "title": "Update unit tests",
+    "description": "Evaluate potential technologies for the new project.",
+    "status": "pending",
+    "priority": "low",
+    "due_date": "12/21/25"
+  },
+  {
+    "id": 14,
+    "title": "Update modal titles",
+    "description": "Evaluate potential technologies for the new project.",
+    "status": "pending",
+    "priority": "low",
+    "due_date": "12/21/25"
+  },
+  {
+    "id": 15,
+    "title": "Research tech stack options",
+    "description": "Evaluate potential technologies for the new project.",
+    "status": "pending",
+    "priority": "low",
+    "due_date": "12/21/25"
   }
 ]

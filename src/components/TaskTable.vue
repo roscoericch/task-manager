@@ -54,7 +54,7 @@ const updateQuery = (key: string, value: string) => {
   <v-table
     v-if="!isLoading"
     class="shadow-sm border border-[#efefee] rounded-[6px] relative"
-    height="450px"
+    height="550px"
     fixed-header
   >
     <thead>
@@ -111,7 +111,7 @@ const updateQuery = (key: string, value: string) => {
         <td>
           <v-chip class="capitalize" :color="task.priority">{{ task.priority }}</v-chip>
         </td>
-        <td>{{ task.due_date }}</td>
+        <td class="w-[100px]">{{ task.due_date }}</td>
         <td>
           <DotIcons />
         </td>
@@ -128,7 +128,7 @@ const updateQuery = (key: string, value: string) => {
   <v-pagination
     color="primary"
     v-model="query.page"
-    :length="15"
+    :length="10"
     :total-visible="5"
     class="md:my-1 w-[80%] mx-auto"
     v-if="filteredData && filteredData.length > 5"

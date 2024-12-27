@@ -3,7 +3,7 @@ import { priorityVariant } from '@/constants'
 import { useTaskStore } from '@/stores/useTaskStore'
 import { toast } from 'vue3-toastify'
 const emit = defineEmits<{
-  (e: 'close'): void
+  (_e: 'close'): void
 }>()
 const form = ref<HTMLFormElement | null>(null)
 const rules = {

@@ -20,11 +20,7 @@ const taskData = computed((): Partial<ITask> => {
       ...current,
     }
   else {
-    toast.error('Task not found', {
-      onClose: () => {
-        replace('/')
-      },
-    })
+    // replace('/')
     return {}
   }
 })
@@ -126,29 +122,20 @@ function handleDelete() {
     </v-dialog>
   </main>
   <v-dialog v-model="editDialog" width="500">
-    <v-card class="px-[5%] py-[7%] relative" rounded="lg">
-      <v-btn
-        variant="plain"
-        position="absolute"
-        class="top-[1%] right-[0px]"
-        @click="(dialog = false)"
-        color="error"
-        density="compact"
-        :ripple="false"
-      >
-        <template v-slot:default> <CloseIcon class="" /> </template
-      ></v-btn>
-      <v-btn
-        variant="plain"
-        position="absolute"
-        class="top-[1%] right-[0px]"
-        @click="(editDialog = false)"
-        color="error"
-        density="compact"
-        :ripple="false"
-      >
-        <template v-slot:default> <CloseIcon class="" /> </template
-      ></v-btn>
+    <v-card class="px-[5%] pt-[2%] pb-[5%] relative" rounded="lg">
+      <div class="flex justify-between items-center pb-4">
+        <v-title class="text-[18px] font-[800]">Edit Task</v-title>
+        <v-btn
+          variant="plain"
+          class="self-end inline px-0 min-w-[24px] my-auto"
+          @click="(editDialog = false)"
+          color="error"
+          density="compact"
+          :ripple="false"
+        >
+          <template v-slot:default> <CloseIcon class="" /> </template
+        ></v-btn>
+      </div>
       <EditTask @close="(editDialog = false)" />
     </v-card>
   </v-dialog>
