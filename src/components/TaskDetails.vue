@@ -10,7 +10,7 @@ const store = useTaskStore()
 const { deleteTask } = store
 const { data } = storeToRefs(store)
 const { params } = useRoute()
-const { push, replace, back } = useRouter()
+const { push, back } = useRouter()
 const dialog = ref(false)
 const editDialog = ref(false)
 const taskData = computed((): Partial<ITask> => {
