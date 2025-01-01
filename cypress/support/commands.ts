@@ -34,4 +34,17 @@
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
 //     }
 //   }
-// }
+
+export {}
+
+Cypress.Commands.add('getDataByTestId', (id) => {
+  return cy.get(`[data-test='${id}']`)
+})
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      getDataByTestId(id: string): Chainable<JQuery<HTMLElement>>
+    }
+  }
+}

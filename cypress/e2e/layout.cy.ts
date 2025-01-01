@@ -3,6 +3,6 @@ describe('layout test', () => {
     cy.visit('/')
   })
   it('Asserts layout', () => {
-    cy.get("[data-test='app-title']").should('contain.text', 'Task Manager')
+    cy.getDataByTestId('app-title').should('contain.text', 'Task Manager')
   })
 })
