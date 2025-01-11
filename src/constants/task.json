@@ -1,122 +1,124 @@
-[
-  {
-    "id": 1,
-    "title": "Complete project proposal",
-    "description": "Finalize the proposal document for the new project.",
-    "status": "in progress",
-    "priority": "high",
-    "due_date": "12/16/24"
-  },
-  {
-    "id": 2,
-    "title": "Team meeting preparation",
-    "description": "Prepare slides for the upcoming team meeting.",
-    "status": "pending",
-    "priority": "medium",
-    "due_date": "12/14/24"
-  },
-  {
-    "id": 3,
-    "title": "Code review",
-    "description": "Review the pull requests in the repository.",
-    "status": "completed",
-    "priority": "medium",
-    "due_date": "12/10/24"
-  },
-  {
-    "id": 4,
-    "title": "Client feedback analysis",
-    "description": "Analyze feedback from the recent client demo.",
-    "status": "in progress",
-    "priority": "high",
-    "due_date": "12/18/24"
-  },
-  {
-    "id": 5,
-    "title": "Update documentation",
-    "description": "Add new features to the project documentation.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/20/24"
-  },
-  {
-    "id": 6,
-    "title": "Fix UI bugs",
-    "description": "Resolve bugs reported on the user interface.",
-    "status": "in progress",
-    "priority": "medium",
-    "due_date": "12/15/24"
-  },
-  {
-    "id": 7,
-    "title": "Plan holiday event",
-    "description": "Organize the team's end-of-year holiday event.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/22/24"
-  },
-  {
-    "id": 8,
-    "title": "Database optimization",
-    "description": "Optimize the queries in the database for better performance.",
-    "status": "in progress",
-    "priority": "high",
-    "due_date": "12/17/24"
-  },
-  {
-    "id": 9,
-    "title": "Test automation script",
-    "description": "Write a script to automate regression testing.",
-    "status": "completed",
-    "priority": "medium",
-    "due_date": "12/12/24"
-  },
-  {
-    "id": 10,
-    "title": "Research tech stack options",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/24"
-  },
-  {
-    "id": 11,
-    "title": "Update number of tasks",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/25"
-  },
-  {
-    "id": 12,
-    "title": "Implement Cypress end to end integration",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/24"
-  },
-  {
-    "id": 13,
-    "title": "Update unit tests",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/25"
-  },
-  {
-    "id": 14,
-    "title": "Update modal titles",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/25"
-  },
-  {
-    "id": 15,
-    "title": "Research tech stack options",
-    "description": "Evaluate potential technologies for the new project.",
-    "status": "pending",
-    "priority": "low",
-    "due_date": "12/21/25"
-  }
-]
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Complete project proposal",
+      "description": "Finalize the proposal document for the new project.",
+      "status": "in progress",
+      "priority": "high",
+      "due_date": "12/16/24"
+    },
+    {
+      "id": 2,
+      "title": "Team meeting preparation",
+      "description": "Prepare slides for the upcoming team meeting.",
+      "status": "pending",
+      "priority": "medium",
+      "due_date": "12/14/24"
+    },
+    {
+      "id": 3,
+      "title": "Code review",
+      "description": "Review the pull requests in the repository.",
+      "status": "completed",
+      "priority": "medium",
+      "due_date": "12/10/24"
+    },
+    {
+      "id": 4,
+      "title": "Client feedback analysis",
+      "description": "Analyze feedback from the recent client demo.",
+      "status": "in progress",
+      "priority": "high",
+      "due_date": "12/18/24"
+    },
+    {
+      "id": 5,
+      "title": "Update documentation",
+      "description": "Add new features to the project documentation.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/20/24"
+    },
+    {
+      "id": 6,
+      "title": "Fix UI bugs",
+      "description": "Resolve bugs reported on the user interface.",
+      "status": "in progress",
+      "priority": "medium",
+      "due_date": "12/15/24"
+    },
+    {
+      "id": 7,
+      "title": "Plan holiday event",
+      "description": "Organize the team's end-of-year holiday event.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/22/24"
+    },
+    {
+      "id": 8,
+      "title": "Database optimization",
+      "description": "Optimize the queries in the database for better performance.",
+      "status": "in progress",
+      "priority": "high",
+      "due_date": "12/17/24"
+    },
+    {
+      "id": 9,
+      "title": "Test automation script",
+      "description": "Write a script to automate regression testing.",
+      "status": "completed",
+      "priority": "medium",
+      "due_date": "12/12/24"
+    },
+    {
+      "id": 10,
+      "title": "Research tech stack options",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/24"
+    },
+    {
+      "id": 11,
+      "title": "Update number of tasks",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/25"
+    },
+    {
+      "id": 12,
+      "title": "Implement Cypress end to end integration",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/24"
+    },
+    {
+      "id": 13,
+      "title": "Update unit tests",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/25"
+    },
+    {
+      "id": 14,
+      "title": "Update modal titles",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/25"
+    },
+    {
+      "id": 15,
+      "title": "Research tech stack options",
+      "description": "Evaluate potential technologies for the new project.",
+      "status": "pending",
+      "priority": "low",
+      "due_date": "12/21/25"
+    }
+  ]
+}
