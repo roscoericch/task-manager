@@ -6,27 +6,21 @@ import EditTask from './EditTask.vue'
 import CloseIcon from './icons/IconClose.vue'
 import BackIcon from './icons/IconBack.vue'
 import { toast } from 'vue3-toastify'
+import { useFetch } from '@/stores/useQueryStore'
 const store = useTaskStore()
 const { deleteTask } = store
 const { data } = storeToRefs(store)
+const apiStore = useFetch()
+const { fetchDataById } = apiStore
 const { params } = useRoute()
 const { push, back } = useRouter()
 const dialog = ref(false)
 const editDialog = ref(false)
-const taskData = computed((): Partial<ITask> => {
-  const current = data.value.find((e) => e.id.toString() === decryptId(params.id.toString()))
-  if (current)
-    return {
-      ...current,
-    }
-  else {
-    // replace('/')
-    return {}
-  }
-})
+const taskData = reactive<Partial<ITask>>({})
+
 function handleDelete() {
-  if (!taskData?.value?.id) return
-  deleteTask(taskData?.value?.id)
+  if (!taskData?.id) return
+  deleteTask(taskData?.id)
   toast.success('Task Deleted Succesfully', {
     onClose: () => {
       push({ name: 'home' })
@@ -34,10 +28,15 @@ function handleDelete() {
   })
   dialog.value = false
 }
+
+onMounted(async () => {
+  const current = await fetchDataById(decryptId(params.id.toString()))
+  Object.assign(taskData, current)
+})
 </script>
 <template>
-  <main class="bg-white px-[5%] py-[2%] flex flex-col gap-4 w-full">
-    <header class="flex flex-col md:flex-row justify-between items-center w-full">
+  <main class="bg-white px-[2%] md:px-[5%] py-[2%] flex flex-col gap-4 w-full">
+    <header class="flex flex-row justify-between items-center w-full">
       <v-btn
         variant="tonal"
         class="text-[12px]"
@@ -48,7 +47,7 @@ function handleDelete() {
         <template v-slot:prepend> <BackIcon class="" /> </template>
         Back
       </v-btn>
-      <div class="flex items-center w-fit justify-start md:justify-end gap-4">
+      <div class="flex items-center w-fit justify-end gap-4">
         <v-btn
           data-test="edit-btn"
           theme="primary"
@@ -78,24 +77,24 @@ function handleDelete() {
       <v-divider class="mt-2"></v-divider>
       <div class="grid grid-cols-1 md:grid-cols-2 shadow-sm">
         <span class="px-4">
-          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Type</h6>
+          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Type:</h6>
           <p>Task</p>
         </span>
         <v-divider class="my-2 md:hidden"></v-divider>
         <span class="px-4">
-          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Priority</h6>
+          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Priority:</h6>
           <p class="capitalize">{{ taskData.priority }}</p>
         </span>
       </div>
       <v-divider></v-divider>
       <div class="grid grid-cols-1 md:grid-cols-2 shadow-sm">
         <span class="px-4">
-          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Status</h6>
+          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Status:</h6>
           <p class="capitalize">{{ taskData.status }}</p>
         </span>
         <v-divider class="my-2 md:hidden"></v-divider>
         <span class="px-4">
-          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Due Date</h6>
+          <h6 class="text-[18px] font-[400] text-gray-800 capitalize">Due Date:</h6>
           <p class="capitalize">{{ taskData.due_date }}</p>
         </span>
       </div>

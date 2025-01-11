@@ -14,7 +14,7 @@ const { filterQuery } = defineProps<{
 const router = useRouter()
 const route = useRoute()
 const query: IRequestQuery = reactive({ page: Number(route.query.page || 1) })
-useFetch('https://run.mocky.io/v3/df9d0d32-8e68-40cd-8d62-8ebb4b1b71e7', query)
+// useFetch()
 const store = useTaskStore()
 const { data, isLoading, error } = storeToRefs(store)
 const snackbar = ref(false)
@@ -104,7 +104,7 @@ const updateQuery = (key: string, value: string) => {
         class="cursor-pointer hover:bg-gray-50"
       >
         <td>{{ task.title }}</td>
-        <td>{{ task.description }}</td>
+        <td class="">{{ task.description.slice(0, 10) }}...</td>
         <td>
           <v-chip class="capitalize" :color="styleStatus(task.status)">{{ task.status }}</v-chip>
         </td>
