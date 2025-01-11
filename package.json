@@ -11,13 +11,15 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "server": "json-server --watch ./src/constants/task.json --port 5000"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@mdi/js": "^7.4.47",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
+    "json-server": "^1.0.0-beta.3",
     "pinia": "^2.2.6",
     "query-string": "^9.1.1",
     "tailwind-merge": "^2.5.5",
